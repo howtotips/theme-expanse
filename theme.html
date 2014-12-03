@@ -70,7 +70,7 @@
         {% if loop.index == 1 and photo %}
         <meta name="twitter:image:src" content="{{ photo.width_400 }}" />
         {% else %}
-        <meta property="twitter:image:src" content="{{ site.avatar }}" />
+        <meta name="twitter:image:src" content="{{ site.avatar }}" />
         {% endif %}
     <meta name="twitter:domain" content="{{ site.base_url }}">
     <link href="http://http//travel-notes.postach.io/feed.xml?tags=travel" rel="alternate" title="{{ site.name }} Feed" type="application/atom+xml" />
