@@ -11,6 +11,64 @@
     <meta name="revisit-after" content="2 days" />
     <meta name="keywords" content="{% if is_home %}travel,travel blog,travel notes,photo,photography,postachio,postach.io{% elif is_post %}{{ post.title }},travel,blog,travel blog,blog post,tagged{% elif is_link %}{{ link.title }}{% elif is_page %}{{ page.title }},travel blog,travel,blog,tips{%elif is_tag %}blog posts tagged #{{ tag }},travel blog,travel,blog,tips{% endif %}" />
         <meta name="rating" content="General" />
+        
+         <meta property="og:site_name" content="{{ site.name }}" />
+    {% if is_post %}
+    <meta itemprop="name" content="{{ post.title }}">
+    <meta itemprop="description" content="{{ post.content|striptags|truncate(255)|e }}">
+    <meta property="article:published_time" content="{{ post.created_at }}" />
+    {% if post.tags %}
+        {% for tag in post.tags %}
+        <meta property="article:tag" content="{{ tag|format_tag(link=False, humanize=True) }}" />
+        {% endfor %}
+    {% endif %}
+    {% if post.photos %}
+    {% for photo in post.photos %}
+        {% if loop.index == 1 and photo %}
+        <meta property="og:image" content="{{ photo.width_400 }}" />
+        <meta itemprop="image" content="{{ photo.width_400 }}">
+        {% else %}
+        <meta property="og:image" content="{{ site.avatar }}" />
+        <meta itemprop="image" content="{{ site.avatar }}">
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{{ post.title }}" />
+    <meta property="og:url" content="{{ site.base_url }}{{ post.permalink }}" />
+    <meta property="og:description" content="{{ post.content|striptags|truncate(255)|e }}" />
+    {% elif is_page %}
+    <meta property="og:image" content="{{ site.avatar }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{{ page.title }}" />
+    <meta property="og:url" content="{{ site.base_url }}{{ page.permalink }}" />
+    <meta property="og:description" content="{{ page.content|striptags|truncate(255)|e }}" />
+    {% else %}
+    <meta property="og:image" content="{{ site.avatar }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="{{ site.name }}" />
+    <meta property="og:url" content="{{ site.base_url }}" />
+    <meta property="og:description" content="{{ site.bio|striptags }}" />
+    {% endif %}
+ 
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gerd_meissner">
+    {% if is_post %}
+    <meta name="twitter:title" content="{{ post.title }}">
+    <meta name="twitter:description" content="{{ post.content|striptags|truncate(255)|e }}...">
+    {% elif is_page %}
+    <meta name="twitter:title" content="{{ page.title }}">
+    <meta name="twitter:description" content=" {{ page.content|striptags|truncate(255)|e }}...">
+    {% else %}
+    <meta name="twitter:title" content="{{ site.name }}">
+    <meta name="twitter:description" content="{{ site.bio|striptags|truncate(255)|e }}...">
+    {% endif %}
+    <meta name="twitter:creator" content="@gerd_meissner">
+    <meta name="twitter:image:src" content="{{ site.avatar }}">
+    <meta name="twitter:domain" content="{{ site.base_url }}">
+    <link href="http://http//travel-notes.postach.io/feed.xml?tags=travel" rel="alternate" title="{{ site.name }} Feed" type="application/atom+xml" />
+    <link rel="author" href="https://plus.google.com/113601152070259543114/posts" />
+
     <title>
         {% if is_login %}Login
         {% elif is_home %}{{ site.author }}
